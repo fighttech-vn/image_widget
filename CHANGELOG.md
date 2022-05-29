@@ -1,3 +1,6 @@
+## 0.0.2
+
+chore(Library): upgrade version library
 ## 0.0.1
 
 feat(ImageWidget): add ImageWidget render svg, local asset, network asset, lotties
