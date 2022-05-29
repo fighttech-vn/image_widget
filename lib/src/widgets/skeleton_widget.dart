@@ -12,21 +12,16 @@ class Skeleton extends StatefulWidget {
 class _SkeletonState extends State<Skeleton>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-
   late Animation gradientPosition;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    );
 
-    gradientPosition = Tween<double>(
-      begin: -3,
-      end: 10,
-    ).animate(
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 1500), vsync: this);
+
+    gradientPosition = Tween<double>(begin: -3, end: 10).animate(
       CurvedAnimation(parent: _controller, curve: Curves.linear),
     )..addListener(
         () {
@@ -40,6 +35,7 @@ class _SkeletonState extends State<Skeleton>
   @override
   void dispose() {
     _controller.dispose();
+    
     super.dispose();
   }
 
