@@ -6,8 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
 import './platforms/platform_io.dart'
-    if (dart.library.html) '../platforms/web_io.dart'
-    if (dart.library.io) '../platforms/mobile_io.dart' show getFile;
+    if (dart.library.html) './platforms/web_io.dart'
+    if (dart.library.io) './platforms/mobile_io.dart' show getFile;
 import 'widgets/skeleton_widget.dart';
 
 
