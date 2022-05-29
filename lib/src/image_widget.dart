@@ -10,9 +10,10 @@ import './platforms/platform_io.dart'
     if (dart.library.io) '../platforms/mobile_io.dart' show getFile;
 import 'widgets/skeleton_widget.dart';
 
-const kPackageDefault = 'design_system';
 
 class ImageWidget extends StatelessWidget {
+  static String packageDefault = 'design_system';
+
   final String source;
   final BoxFit fit;
   final double? width;
@@ -33,7 +34,7 @@ class ImageWidget extends StatelessWidget {
     this.usePlaceHolder = true,
     this.color,
     this.borderRadius,
-    this.package = kPackageDefault,
+    this.package,
     this.cacheWidth,
     this.cacheHeight,
   }) : super(key: key);
@@ -47,7 +48,7 @@ class ImageWidget extends StatelessWidget {
     this.usePlaceHolder = true,
     this.color,
     this.borderRadius = 10,
-    this.package = kPackageDefault,
+    this.package,
     this.cacheWidth,
     this.cacheHeight,
   }) : super(key: key);
@@ -78,7 +79,7 @@ class ImageWidget extends StatelessWidget {
         color: color,
         width: width,
         height: height,
-        package: package,
+        package: package ?? packageDefault,
       );
     } else if (source.contains('http')) {
       body = ExtendedImage.network(
@@ -100,7 +101,7 @@ class ImageWidget extends StatelessWidget {
     } else if (source.contains('.json')) {
       return Lottie.asset(
         source,
-        package: package,
+        package: package ?? packageDefault,
         width: width,
         height: height,
         fit: fit,
@@ -111,7 +112,7 @@ class ImageWidget extends StatelessWidget {
         fit: fit,
         width: width,
         height: height,
-        package: package,
+        package: package ?? packageDefault,
       );
     }
     if (borderRadius != null) {
