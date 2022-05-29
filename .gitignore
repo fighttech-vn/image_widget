@@ -57,3 +57,6 @@ hydrated_box.hive
 generated_plugins.cmake
 Podfile.lock
 ios/GoogleService-Info.plist
+imagewidget.iml
+imagewidget_android.iml
+pubspec.lock
