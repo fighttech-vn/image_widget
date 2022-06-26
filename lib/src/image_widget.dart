@@ -12,7 +12,7 @@ import 'widgets/skeleton_widget.dart';
 
 
 class ImageWidget extends StatelessWidget {
-  static String packageDefault = 'design_system';
+  static String? packageDefault = 'design_system';
 
   final String source;
   final BoxFit fit;

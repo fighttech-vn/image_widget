@@ -2,10 +2,19 @@
 
 Fighttech Flutter Image Widget
 
-## Getting Started
+# setup
+Not use package `design_system`
+main.dart
+```
+  ImageWidget.packageDefault = null;
+```
 
-For help getting started with Flutter development, view the online
-[documentation](https://flutter.dev/).
-
-For instructions integrating Flutter modules to your existing applications,
-see the [add-to-app documentation](https://flutter.dev/docs/development/add-to-app).
+# Easy render image widget
+```
+ImageWidget(
+    pathIcon,
+    color: Colors.white,
+    height: size,
+    width: size,
+  ),
+```

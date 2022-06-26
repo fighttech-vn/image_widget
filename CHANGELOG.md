@@ -1,3 +1,6 @@
+## 0.0.4
+feat(Package): support package default can null 
+
 ## 0.0.3
 
 bugfix(Compile): fix import compile error platforms
