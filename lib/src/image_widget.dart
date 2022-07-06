@@ -53,13 +53,13 @@ class ImageWidget extends StatelessWidget {
     this.cacheHeight,
   }) : super(key: key);
 
-  Widget copyWith({Color? color}) {
+  Widget copyWith({Color? color, double? width, double? height}) {
     return ImageWidget(
       source,
       key: key,
       fit: fit,
-      width: width,
-      height: height,
+      width: width ?? width,
+      height: height ?? height,
       usePlaceHolder: usePlaceHolder,
       color: color ?? this.color,
       borderRadius: borderRadius,

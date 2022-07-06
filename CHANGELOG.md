@@ -1,3 +1,5 @@
+## 0.0.5
+chore(CopyWith): support param width, height
 ## 0.0.4
 feat(Package): support package default can null 
 
