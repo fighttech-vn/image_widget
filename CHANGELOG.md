@@ -1,5 +1,9 @@
+## 0.0.7
+feat(ImageRemote): Fix render skeleton
+
 ## 0.0.5
 chore(CopyWith): support param width, height
+
 ## 0.0.4
 feat(Package): support package default can null 
 
