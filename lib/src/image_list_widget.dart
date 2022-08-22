@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../imagewidget.dart';
 import 'widgets/hero_widget.dart';
+import 'widgets/image_zoom.dart';
 
 class ImageListsWidget extends StatefulWidget {
   final List<String> images;
@@ -23,8 +24,8 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
       primary: false,
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 300,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
+        crossAxisSpacing: 6,
+        mainAxisSpacing: 6,
       ),
       itemBuilder: (BuildContext context, int index) {
         final String url = widget.images[index];
@@ -40,9 +41,6 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
                     )
                   : ImageWidget(
                       url,
-                      width: 300,
-                      height: 100,
-                      fit: BoxFit.cover,
                     ),
             ),
           ),
@@ -84,8 +82,7 @@ class SlidePage extends StatefulWidget {
 }
 
 class _SlidePageState extends State<SlidePage> {
-  GlobalKey<ExtendedImageSlidePageState> slidePagekey =
-      GlobalKey<ExtendedImageSlidePageState>();
+  final slidePagekey = GlobalKey<ExtendedImageSlidePageState>();
 
   @override
   Widget build(BuildContext context) {
@@ -131,12 +128,12 @@ class _SlidePageState extends State<SlidePage> {
                   slideType: SlideType.onlyImage,
                   slidePagekey: slidePagekey,
                   child: PageView.builder(
+                      controller: PageController(
+                          initialPage: widget.listUrl
+                              .indexWhere((element) => element == widget.url)),
                       itemCount: widget.listUrl.length,
                       itemBuilder: (context, index) {
-                        return ExtendedImage.network(
-                          widget.listUrl[index],
-                          enableSlideOutPage: true,
-                        );
+                        return ImageZoom(url: widget.listUrl[index]);
                       }),
                 ),
           onTap: () {
