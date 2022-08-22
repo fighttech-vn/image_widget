@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:imagewidget/imagewidget.dart';
 
@@ -66,9 +67,16 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<String> images = <String>[
+    final images = <String>[
       'https://photo.tuchong.com/14649482/f/601672690.jpg',
       'https://photo.tuchong.com/17325605/f/641585173.jpg',
       'https://photo.tuchong.com/3541468/f/256561232.jpg',
@@ -77,20 +85,22 @@ class _MyHomePageState extends State<MyHomePage> {
       'https://photo.tuchong.com/5040418/f/43305517.jpg',
       'https://photo.tuchong.com/3019649/f/302699092.jpg'
     ];
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Column(
+    final widgetOptions = <Widget>[
+      Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           const Text(
             'You have pushed the button this many times:',
           ),
-          TextFormField(
+          CupertinoTextField(
+            clearButtonMode: OverlayVisibilityMode.editing,
             controller: linkCtr,
             onChanged: (value) {
+              if (value.isEmpty || !value.contains('http')) {
+                return;
+              }
+
               setState(() {});
             },
           ),
@@ -104,56 +114,42 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 400,
               height: 300,
             ),
+        ],
+      ),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
           Expanded(
-            child: GridView.builder(
-              primary: false,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 300,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                final String url = images[index];
-                return GestureDetector(
-                  child: AspectRatio(
-                    aspectRatio: 1.0,
-                    child: Hero(
-                      tag: url,
-                      child: url == 'This is an video'
-                          ? Container(
-                              alignment: Alignment.center,
-                              child: const Text('This is an video'),
-                            )
-                          : ImageWidget(
-                              url,
-                              width: 300,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).push(
-                      PageRouteBuilder(
-                        opaque: false,
-                        barrierColor: Colors.transparent,
-                        barrierDismissible: true,
-                        pageBuilder: (c, a1, a2) => SlidePage(
-                          url: url,
-                        ),
-                        transitionsBuilder: (c, anim, a2, child) =>
-                            FadeTransition(opacity: anim, child: child),
-                        transitionDuration: const Duration(milliseconds: 200),
-                      ),
-                    );
-                  },
-                );
-              },
-              itemCount: images.length,
-            ),
+            child: ImageListsWidget(images: images),
           ),
         ],
       ),
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Image Widget',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Image list',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
+      ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
