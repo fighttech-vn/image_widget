@@ -10,7 +10,6 @@ import './platforms/platform_io.dart'
     if (dart.library.io) './platforms/mobile_io.dart' show getFile;
 import 'widgets/skeleton_widget.dart';
 
-
 class ImageWidget extends StatelessWidget {
   static String? packageDefault = 'design_system';
 
@@ -24,6 +23,7 @@ class ImageWidget extends StatelessWidget {
   final String? package;
   final int? cacheWidth;
   final int? cacheHeight;
+  final double aspectRatio;
 
   const ImageWidget(
     this.source, {
@@ -37,6 +37,7 @@ class ImageWidget extends StatelessWidget {
     this.package,
     this.cacheWidth,
     this.cacheHeight,
+    this.aspectRatio = 2.0,
   }) : super(key: key);
 
   const ImageWidget.avatar(
@@ -51,6 +52,7 @@ class ImageWidget extends StatelessWidget {
     this.package,
     this.cacheWidth,
     this.cacheHeight,
+    this.aspectRatio = 2.0,
   }) : super(key: key);
 
   Widget copyWith({Color? color, double? width, double? height}) {
@@ -73,14 +75,22 @@ class ImageWidget extends StatelessWidget {
     if (source.isEmpty) {
       body = const Placeholder();
     } else if (source.contains('.svg')) {
-      body = SvgPicture.asset(
-        source,
-        fit: fit,
-        color: color,
-        width: width,
-        height: height,
-        package: package ?? packageDefault,
-      );
+      body = source.contains('http')
+          ? SvgPicture.network(
+              source,
+              fit: fit,
+              color: color,
+              width: width,
+              height: height,
+            )
+          : SvgPicture.asset(
+              source,
+              fit: fit,
+              color: color,
+              width: width,
+              height: height,
+              package: package ?? packageDefault,
+            );
     } else if (source.contains('http')) {
       body = ExtendedImage.network(
         source,
@@ -129,13 +139,17 @@ class ImageWidget extends StatelessWidget {
     Widget widget;
     switch (state.extendedImageLoadState) {
       case LoadState.loading:
-        widget = usePlaceHolder
-            ? SizedBox(
-                width: width,
-                height: height,
-              )
-            : const Skeleton();
-        break;
+        if (width != null) {
+          return SizedBox(
+              width: width, height: height, child: const Skeleton());
+        }
+        return LayoutBuilder(builder: (context, contraint) {
+          return AspectRatio(
+            aspectRatio: aspectRatio,
+            child: const Skeleton(),
+          );
+        });
+
       case LoadState.completed:
         widget = ExtendedRawImage(
           image: state.extendedImageInfo?.image,
