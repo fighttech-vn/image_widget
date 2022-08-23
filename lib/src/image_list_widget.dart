@@ -8,6 +8,7 @@ import 'widgets/image_zoom.dart';
 
 class ImageListsWidget extends StatefulWidget {
   final Widget? header;
+  final double aspectRatio;
   final List<String> images;
   final List<String>? captions;
   final Color? themeColor;
@@ -18,6 +19,7 @@ class ImageListsWidget extends StatefulWidget {
   const ImageListsWidget({
     Key? key,
     this.header,
+    this.aspectRatio = 1,
     required this.images,
     this.captions,
     this.themeColor,
@@ -31,8 +33,55 @@ class ImageListsWidget extends StatefulWidget {
 }
 
 class _ImageListsWidgetState extends State<ImageListsWidget> {
+  void _onTapDetail(String url, int index) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        barrierColor: Colors.transparent,
+        barrierDismissible: true,
+        pageBuilder: (c, a1, a2) => SlidePage(
+          url: url,
+          listUrl: widget.images,
+          header: widget.header,
+          captions: widget.captions,
+          index: index,
+          themeColor: widget.themeColor,
+          isShowTitle: widget.isShowTitle,
+        ),
+        transitionsBuilder: (c, anim, a2, child) =>
+            FadeTransition(opacity: anim, child: child),
+        transitionDuration: const Duration(milliseconds: 200),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (widget.images.length == 1) {
+      final url = widget.images.first;
+      return AspectRatio(
+        aspectRatio: widget.aspectRatio,
+        child: GestureDetector(
+          child: Hero(
+            tag: widget.images.first,
+            child: url == 'This is an video'
+                ? widget.videoBuilder != null
+                    ? widget.videoBuilder!(url)
+                    : Container(
+                        alignment: Alignment.center,
+                        child: const Text('This is an video'),
+                      )
+                : ImageWidget(
+                    url,
+                  ),
+          ),
+          onTap: () {
+            _onTapDetail(url, 0);
+          },
+        ),
+      );
+    }
+
     return GridView.builder(
       primary: false,
       shrinkWrap: widget.shrinkWrap,
@@ -43,43 +92,21 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
       ),
       itemBuilder: (BuildContext context, int index) {
         final String url = widget.images[index];
+
         return GestureDetector(
-          child: AspectRatio(
-            aspectRatio: 1.0,
-            child: Hero(
-              tag: url,
-              child: url == 'This is an video'
-                  ? widget.videoBuilder != null
-                      ? widget.videoBuilder!(url)
-                      : Container(
-                          alignment: Alignment.center,
-                          child: const Text('This is an video'),
-                        )
-                  : ImageWidget(
-                      url,
-                    ),
-            ),
+          child: Hero(
+            tag: url,
+            child: url == 'This is an video'
+                ? widget.videoBuilder != null
+                    ? widget.videoBuilder!(url)
+                    : Container(
+                        alignment: Alignment.center,
+                        child: const Text('This is an video'),
+                      )
+                : ImageWidget(url),
           ),
           onTap: () {
-            Navigator.of(context).push(
-              PageRouteBuilder(
-                opaque: false,
-                barrierColor: Colors.transparent,
-                barrierDismissible: true,
-                pageBuilder: (c, a1, a2) => SlidePage(
-                  url: url,
-                  listUrl: widget.images,
-                  header: widget.header,
-                  captions: widget.captions,
-                  index: index,
-                  themeColor: widget.themeColor,
-                  isShowTitle: widget.isShowTitle,
-                ),
-                transitionsBuilder: (c, anim, a2, child) =>
-                    FadeTransition(opacity: anim, child: child),
-                transitionDuration: const Duration(milliseconds: 200),
-              ),
-            );
+            _onTapDetail(url, index);
           },
         );
       },

@@ -110,6 +110,12 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          const ImageListsWidget(
+            images: [
+              'https://photo.tuchong.com/5040418/f/43305517.jpg?v=1',
+            ],
+            aspectRatio: 376 / 252,
+          ),
           Expanded(
             child: ImageListsWidget(
               images: images,
@@ -180,7 +186,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.business),
-            label: 'Image list with Sliver',
+            label: 'SliverList',
           ),
         ],
         currentIndex: _selectedIndex,
