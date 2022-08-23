@@ -13,6 +13,7 @@ class ImageListsWidget extends StatefulWidget {
   final Color? themeColor;
   final Widget Function(String url)? videoBuilder;
   final bool isShowTitle;
+  final bool shrinkWrap;
 
   const ImageListsWidget({
     Key? key,
@@ -22,6 +23,7 @@ class ImageListsWidget extends StatefulWidget {
     this.themeColor,
     this.videoBuilder,
     this.isShowTitle = false,
+    this.shrinkWrap = true,
   }) : super(key: key);
 
   @override
@@ -33,6 +35,7 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
   Widget build(BuildContext context) {
     return GridView.builder(
       primary: false,
+      shrinkWrap: widget.shrinkWrap,
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 300,
         crossAxisSpacing: 6,
