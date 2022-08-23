@@ -66,6 +66,15 @@ class _MyHomePageState extends State<MyHomePage> {
       'https://photo.tuchong.com/5040418/f/43305517.jpg',
       'https://photo.tuchong.com/3019649/f/302699092.jpg',
     ];
+    final captions = <String>[
+      'https://photo.tuchong.com/14649482/f/601672690.jpg',
+      'https://photo.tuchong.com/17325605/f/641585173.jpg',
+      'https://photo.tuchong.com/3541468/f/256561232.jpg',
+      'https://photo.tuchong.com/16709139/f/278778447.jpg',
+      'This is an video',
+      'https://photo.tuchong.com/5040418/f/43305517.jpg',
+      'https://photo.tuchong.com/3019649/f/302699092.jpg',
+    ];
     final widgetOptions = <Widget>[
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Expanded(
-            child: ImageListsWidget(images: images),
+            child: ImageListsWidget(
+              images: images,
+              captions: captions,
+            ),
           ),
         ],
       ),
