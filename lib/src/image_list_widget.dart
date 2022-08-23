@@ -11,6 +11,8 @@ class ImageListsWidget extends StatefulWidget {
   final List<String> images;
   final List<String>? captions;
   final Color? themeColor;
+  final Widget Function(String url)? videoBuilder;
+  final bool isShowTitle;
 
   const ImageListsWidget({
     Key? key,
@@ -18,6 +20,8 @@ class ImageListsWidget extends StatefulWidget {
     required this.images,
     this.captions,
     this.themeColor,
+    this.videoBuilder,
+    this.isShowTitle = false,
   }) : super(key: key);
 
   @override
@@ -42,10 +46,12 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
             child: Hero(
               tag: url,
               child: url == 'This is an video'
-                  ? Container(
-                      alignment: Alignment.center,
-                      child: const Text('This is an video'),
-                    )
+                  ? widget.videoBuilder != null
+                      ? widget.videoBuilder!(url)
+                      : Container(
+                          alignment: Alignment.center,
+                          child: const Text('This is an video'),
+                        )
                   : ImageWidget(
                       url,
                     ),
@@ -64,6 +70,7 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
                   captions: widget.captions,
                   index: index,
                   themeColor: widget.themeColor,
+                  isShowTitle: widget.isShowTitle,
                 ),
                 transitionsBuilder: (c, anim, a2, child) =>
                     FadeTransition(opacity: anim, child: child),
@@ -83,6 +90,8 @@ class SlidePage extends StatefulWidget {
   final List<String>? captions;
   final int index;
   final Color? themeColor;
+  final Widget Function(String url)? videoBuilder;
+  final bool isShowTitle;
 
   const SlidePage({
     Key? key,
@@ -92,6 +101,8 @@ class SlidePage extends StatefulWidget {
     this.captions,
     required this.index,
     this.themeColor,
+    this.videoBuilder,
+    required this.isShowTitle,
   }) : super(key: key);
 
   final String url;
@@ -110,6 +121,8 @@ class _SlidePageState extends State<SlidePage> {
   @override
   void initState() {
     pageCurrent = widget.index;
+    isShowTitle = widget.isShowTitle;
+
     _pageController = PageController(
         initialPage:
             widget.listUrl.indexWhere((element) => element == widget.url));
@@ -136,11 +149,13 @@ class _SlidePageState extends State<SlidePage> {
                 child: widget.url == 'This is an video'
                     ? ExtendedImageSlidePageHandler(
                         child: Material(
-                          child: Container(
-                            alignment: Alignment.center,
-                            color: Colors.yellow,
-                            child: const Text('This is an video'),
-                          ),
+                          child: widget.videoBuilder != null
+                              ? widget.videoBuilder!(widget.url)
+                              : Container(
+                                  alignment: Alignment.center,
+                                  color: Colors.yellow,
+                                  child: const Text('This is an video'),
+                                ),
                         ),
 
                         ///make hero better when slide out
