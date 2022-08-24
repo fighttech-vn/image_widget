@@ -9,8 +9,7 @@ import 'widgets/image_zoom.dart';
 class ImageListsWidget extends StatefulWidget {
   final Widget? header;
   final double aspectRatio;
-  final List<String> images;
-  final List<String>? captions;
+  final List<ImageInfoData> images;
   final Color? themeColor;
   final Widget Function(String url)? videoBuilder;
   final bool isShowTitle;
@@ -21,7 +20,6 @@ class ImageListsWidget extends StatefulWidget {
     this.header,
     this.aspectRatio = 1,
     required this.images,
-    this.captions,
     this.themeColor,
     this.videoBuilder,
     this.isShowTitle = false,
@@ -41,9 +39,8 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
         barrierDismissible: true,
         pageBuilder: (c, a1, a2) => SlidePage(
           url: url,
-          listUrl: widget.images,
+          images: widget.images,
           header: widget.header,
-          captions: widget.captions,
           index: index,
           themeColor: widget.themeColor,
           isShowTitle: widget.isShowTitle,
@@ -58,25 +55,25 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
   @override
   Widget build(BuildContext context) {
     if (widget.images.length == 1) {
-      final url = widget.images.first;
+      final item = widget.images.first;
       return AspectRatio(
         aspectRatio: widget.aspectRatio,
         child: GestureDetector(
           child: Hero(
             tag: widget.images.first,
-            child: url == 'This is an video'
+            child: item.type == 'video'
                 ? widget.videoBuilder != null
-                    ? widget.videoBuilder!(url)
+                    ? widget.videoBuilder!(item.url)
                     : Container(
                         alignment: Alignment.center,
                         child: const Text('This is an video'),
                       )
                 : ImageWidget(
-                    url,
+                    item.url,
                   ),
           ),
           onTap: () {
-            _onTapDetail(url, 0);
+            _onTapDetail(item.url, 0);
           },
         ),
       );
@@ -91,7 +88,7 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
         mainAxisSpacing: 6,
       ),
       itemBuilder: (BuildContext context, int index) {
-        final String url = widget.images[index];
+        final String url = widget.images[index].url;
 
         return GestureDetector(
           child: Hero(
@@ -117,7 +114,9 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
 
 class SlidePage extends StatefulWidget {
   final Widget? header;
-  final List<String>? captions;
+
+  final String url;
+  final List<ImageInfoData> images;
   final int index;
   final Color? themeColor;
   final Widget Function(String url)? videoBuilder;
@@ -125,18 +124,14 @@ class SlidePage extends StatefulWidget {
 
   const SlidePage({
     Key? key,
-    required this.url,
-    required this.listUrl,
+    required this.images,
     this.header,
-    this.captions,
     required this.index,
     this.themeColor,
     this.videoBuilder,
     required this.isShowTitle,
+    required this.url,
   }) : super(key: key);
-
-  final String url;
-  final List<String> listUrl;
 
   @override
   State<SlidePage> createState() => _SlidePageState();
@@ -153,9 +148,7 @@ class _SlidePageState extends State<SlidePage> {
     pageCurrent = widget.index;
     isShowTitle = widget.isShowTitle;
 
-    _pageController = PageController(
-        initialPage:
-            widget.listUrl.indexWhere((element) => element == widget.url));
+    _pageController = PageController(initialPage: widget.index);
     super.initState();
   }
 
@@ -214,9 +207,9 @@ class _SlidePageState extends State<SlidePage> {
                         slidePagekey: slidePagekey,
                         child: PageView.builder(
                           controller: _pageController,
-                          itemCount: widget.listUrl.length,
+                          itemCount: widget.images.length,
                           itemBuilder: (context, index) {
-                            return ImageZoom(url: widget.listUrl[index]);
+                            return ImageZoom(url: widget.images[index].url);
                           },
                           onPageChanged: (index) {
                             setState(() {
@@ -238,13 +231,13 @@ class _SlidePageState extends State<SlidePage> {
                   alignment: Alignment.bottomLeft,
                   child: SafeArea(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
+                      padding: const EdgeInsets.only(bottom: 16.0, left: 16),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Expanded(
                             child: Text(
-                              widget.captions?[pageCurrent] ?? '',
+                              widget.images[pageCurrent].caption ?? '',
                               style: TextStyle(
                                   color: widget.themeColor ?? Colors.black),
                             ),
@@ -256,7 +249,7 @@ class _SlidePageState extends State<SlidePage> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 2),
                             child: Text(
-                              '${pageCurrent + 1}/${widget.listUrl.length}',
+                              '${pageCurrent + 1}/${widget.images.length}',
                               style: TextStyle(
                                   color: widget.themeColor ?? Colors.black),
                             ),
@@ -277,7 +270,8 @@ class _SlidePageState extends State<SlidePage> {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 50, right: 10),
+                        padding:
+                            const EdgeInsets.only(top: 50, right: 16, left: 16),
                         child: IconButton(
                           onPressed: Navigator.of(context).pop,
                           icon: Icon(

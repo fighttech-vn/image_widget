@@ -66,15 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
       'https://photo.tuchong.com/5040418/f/43305517.jpg',
       'https://photo.tuchong.com/3019649/f/302699092.jpg',
     ];
-    final captions = <String>[
-      'https://photo.tuchong.com/14649482/f/601672690.jpg',
-      'https://photo.tuchong.com/17325605/f/641585173.jpg',
-      'https://photo.tuchong.com/3541468/f/256561232.jpg',
-      'https://photo.tuchong.com/16709139/f/278778447.jpg',
-      'This is an video',
-      'https://photo.tuchong.com/5040418/f/43305517.jpg',
-      'https://photo.tuchong.com/3019649/f/302699092.jpg',
-    ];
+
     final widgetOptions = <Widget>[
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -110,16 +102,22 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const ImageListsWidget(
+          ImageListsWidget(
             images: [
-              'https://photo.tuchong.com/5040418/f/43305517.jpg?v=1',
+              ImageInfoData(
+                  'https://photo.tuchong.com/5040418/f/43305517.jpg?v=1',
+                  1,
+                  'caption',
+                  'image'),
             ],
             aspectRatio: 376 / 252,
           ),
           Expanded(
             child: ImageListsWidget(
-              images: images,
-              captions: captions,
+              images: images
+                  .map((e) => ImageInfoData(e, null, 'caption', 'image'))
+                  .toList(),
+              isShowTitle: true,
             ),
           ),
         ],
@@ -143,8 +141,9 @@ class _MyHomePageState extends State<MyHomePage> {
               (BuildContext context, int index) {
                 if (index == 0) {
                   return ImageListsWidget(
-                    images: images,
-                    captions: captions,
+                    images: images
+                        .map((e) => ImageInfoData(e, null, 'cap', 'image'))
+                        .toList(),
                   );
                 }
                 return Card(
