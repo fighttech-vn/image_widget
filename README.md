@@ -1,9 +1,8 @@
 # imagewidget
 Fighttech Flutter Image Widget
-
 - https://pub.dev/packages/imagewidget
-Demo site: 
-  - https://fighttech-vn.github.io/image-widget
+- https://fighttech-vn.github.io/image-widget
+
 # setup
 Not use package `design_system`
 main.dart
@@ -11,7 +10,7 @@ main.dart
   ImageWidget.packageDefault = null;
 ```
 
-# Easy render image widget
+## Easy render image widget
 ```
 ImageWidget(
     pathIcon,
@@ -19,4 +18,9 @@ ImageWidget(
     height: size,
     width: size,
   ),
+```
+
+## Support image string 
+```
+SvgImage('string')
 ```
