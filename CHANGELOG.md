@@ -1,3 +1,5 @@
+## 0.0.16
+feat(ImageWidget): Support Animation FadeIn
 ## 0.0.7
 feat(ImageRemote): Fix render skeleton
 

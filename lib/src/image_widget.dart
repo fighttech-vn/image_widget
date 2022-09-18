@@ -10,7 +10,7 @@ import './platforms/platform_io.dart'
     if (dart.library.io) './platforms/mobile_io.dart' show getFile;
 import 'widgets/skeleton_widget.dart';
 
-class ImageWidget extends StatelessWidget {
+class ImageWidget extends StatefulWidget {
   static String? packageDefault = 'design_system';
 
   final String source;
@@ -24,6 +24,7 @@ class ImageWidget extends StatelessWidget {
   final int? cacheWidth;
   final int? cacheHeight;
   final double aspectRatio;
+  final bool useFadeInAnimation;
 
   const ImageWidget(
     this.source, {
@@ -38,6 +39,7 @@ class ImageWidget extends StatelessWidget {
     this.cacheWidth,
     this.cacheHeight,
     this.aspectRatio = 2.0,
+    this.useFadeInAnimation = true,
   }) : super(key: key);
 
   const ImageWidget.avatar(
@@ -53,6 +55,7 @@ class ImageWidget extends StatelessWidget {
     this.cacheWidth,
     this.cacheHeight,
     this.aspectRatio = 2.0,
+    this.useFadeInAnimation = true,
   }) : super(key: key);
 
   Widget copyWith({Color? color, double? width, double? height}) {
@@ -63,71 +66,95 @@ class ImageWidget extends StatelessWidget {
       width: width ?? width,
       height: height ?? height,
       usePlaceHolder: usePlaceHolder,
-      color: color ?? this.color,
+      color: color ?? color,
       borderRadius: borderRadius,
     );
+  }
+
+  @override
+  State<ImageWidget> createState() => _ImageWidgetState();
+}
+
+class _ImageWidgetState extends State<ImageWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  @override
+  void initState() {
+    _controller = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 300),
+        lowerBound: 0.0,
+        upperBound: 1.0);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     Widget body;
 
-    if (source.isEmpty) {
+    if (widget.source.isEmpty) {
       body = const Placeholder();
-    } else if (source.contains('.svg')) {
-      body = source.contains('http')
+    } else if (widget.source.contains('.svg')) {
+      body = widget.source.contains('http')
           ? SvgPicture.network(
-              source,
-              fit: fit,
-              color: color,
-              width: width,
-              height: height,
+              widget.source,
+              fit: widget.fit,
+              color: widget.color,
+              width: widget.width,
+              height: widget.height,
             )
           : SvgPicture.asset(
-              source,
-              fit: fit,
-              color: color,
-              width: width,
-              height: height,
-              package: package ?? packageDefault,
+              widget.source,
+              fit: widget.fit,
+              color: widget.color,
+              width: widget.width,
+              height: widget.height,
+              package: widget.package ?? ImageWidget.packageDefault,
             );
-    } else if (source.contains('http')) {
+    } else if (widget.source.contains('http')) {
       body = ExtendedImage.network(
-        source,
+        widget.source,
         cache: true,
-        fit: fit,
+        fit: widget.fit,
         loadStateChanged: loadStateChanged,
-        cacheWidth: cacheWidth,
-        cacheHeight: cacheHeight,
+        cacheWidth: widget.cacheWidth,
+        cacheHeight: widget.cacheHeight,
       );
-    } else if (source.startsWith('/') ||
-        source.startsWith('file://') ||
-        source.substring(1).startsWith(':\\')) {
+    } else if (widget.source.startsWith('/') ||
+        widget.source.startsWith('file://') ||
+        widget.source.substring(1).startsWith(':\\')) {
       body = ExtendedImage.file(
-        getFile(source),
-        fit: fit,
+        getFile(widget.source),
+        fit: widget.fit,
         loadStateChanged: loadStateChanged,
       );
-    } else if (source.contains('.json')) {
+    } else if (widget.source.contains('.json')) {
       return Lottie.asset(
-        source,
-        package: package ?? packageDefault,
-        width: width,
-        height: height,
-        fit: fit,
+        widget.source,
+        package: widget.package ?? ImageWidget.packageDefault,
+        width: widget.width,
+        height: widget.height,
+        fit: widget.fit,
       );
     } else {
       body = Image.asset(
-        source,
-        fit: fit,
-        width: width,
-        height: height,
-        package: package ?? packageDefault,
+        widget.source,
+        fit: widget.fit,
+        width: widget.width,
+        height: widget.height,
+        package: widget.package ?? ImageWidget.packageDefault,
       );
     }
-    if (borderRadius != null) {
+    if (widget.borderRadius != null) {
       return ClipRRect(
-        borderRadius: BorderRadius.circular(borderRadius!),
+        borderRadius: BorderRadius.circular(widget.borderRadius!),
         child: body,
       );
     }
@@ -136,36 +163,55 @@ class ImageWidget extends StatelessWidget {
   }
 
   Widget? loadStateChanged(ExtendedImageState state) {
-    Widget widget;
+    late Widget image;
     switch (state.extendedImageLoadState) {
       case LoadState.loading:
-        if (width != null) {
+        _controller.reset();
+
+        if (widget.width != null) {
           return SizedBox(
-              width: width, height: height, child: const Skeleton());
+              width: widget.width,
+              height: widget.height,
+              child: const Skeleton());
         }
         return LayoutBuilder(builder: (context, contraint) {
           return AspectRatio(
-            aspectRatio: aspectRatio,
+            aspectRatio: widget.aspectRatio,
             child: const Skeleton(),
           );
         });
 
       case LoadState.completed:
-        widget = ExtendedRawImage(
-          image: state.extendedImageInfo?.image,
-          width: width,
-          height: height,
-          fit: fit,
-        );
+        _controller.forward();
+
+        if (widget.useFadeInAnimation) {
+          image = FadeTransition(
+              opacity: _controller,
+              child: ExtendedRawImage(
+                image: state.extendedImageInfo?.image,
+                width: widget.width,
+                height: widget.height,
+                fit: widget.fit,
+              ));
+        } else {
+          image = ExtendedRawImage(
+            image: state.extendedImageInfo?.image,
+            width: widget.width,
+            height: widget.height,
+            fit: widget.fit,
+          );
+        }
         break;
       case LoadState.failed:
-        widget = Container(
-          width: width,
-          height: height,
+        _controller.reset();
+
+        image = Container(
+          width: widget.width,
+          height: widget.height,
           color: Colors.grey,
         );
         break;
     }
-    return widget;
+    return image;
   }
 }
