@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           if (linkCtr.text.isNotEmpty)
             ImageWidget(
-              linkCtr.text,
+              '${linkCtr.text}v=${DateTime.now().microsecondsSinceEpoch}',
               width: 400,
               height: 300,
             ),
@@ -105,10 +105,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ImageListsWidget(
             images: [
               ImageInfoData(
-                  'https://photo.tuchong.com/5040418/f/43305517.jpg?v=1',
-                  1,
-                  'caption',
-                  'image'),
+                'https://photo.tuchong.com/5040418/f/43305517.jpg?v=2',
+                1,
+                'caption',
+                'image',
+              ),
             ],
             aspectRatio: 376 / 252,
           ),
