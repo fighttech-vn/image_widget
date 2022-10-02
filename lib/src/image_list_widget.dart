@@ -70,6 +70,7 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
                       )
                 : ImageWidget(
                     item.url,
+                    useFadeInAnimation: false,
                   ),
           ),
           onTap: () {
@@ -100,7 +101,10 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
                         alignment: Alignment.center,
                         child: const Text('This is an video'),
                       )
-                : ImageWidget(url),
+                : ImageWidget(
+                    url,
+                    useFadeInAnimation: false,
+                  ),
           ),
           onTap: () {
             _onTapDetail(url, index);
@@ -203,7 +207,7 @@ class _SlidePageState extends State<SlidePage> {
                       )
                     : HeroWidget(
                         tag: widget.url,
-                        slideType: SlideType.onlyImage,
+                        slideType: SlideType.wholePage,
                         slidePagekey: slidePagekey,
                         child: PageView.builder(
                           controller: _pageController,
