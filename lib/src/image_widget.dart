@@ -12,6 +12,7 @@ import 'widgets/skeleton_widget.dart';
 
 class ImageWidget extends StatefulWidget {
   static String? packageDefault = 'design_system';
+  static ErrorWidgetBuilder errorWidgetBuilder = () => null;
 
   final String source;
   final BoxFit fit;
@@ -209,7 +210,7 @@ class _ImageWidgetState extends State<ImageWidget>
         _controller.reset();
 
         image = widget.errorWidget ??
-            errorWidgetBuilder() ??
+            ImageWidget.errorWidgetBuilder() ??
             Container(
               width: widget.width,
               height: widget.height,
@@ -221,5 +222,4 @@ class _ImageWidgetState extends State<ImageWidget>
   }
 }
 
-ErrorWidgetBuilder errorWidgetBuilder = () => null;
 typedef ErrorWidgetBuilder = Widget? Function();
