@@ -209,6 +209,7 @@ class _ImageWidgetState extends State<ImageWidget>
         _controller.reset();
 
         image = widget.errorWidget ??
+            errorWidgerBuilder() ??
             Container(
               width: widget.width,
               height: widget.height,
@@ -219,3 +220,6 @@ class _ImageWidgetState extends State<ImageWidget>
     return image;
   }
 }
+
+ErrorWidgerBuilder errorWidgerBuilder = () => null;
+typedef ErrorWidgerBuilder = Widget? Function();
