@@ -25,6 +25,7 @@ class ImageWidget extends StatefulWidget {
   final int? cacheHeight;
   final double aspectRatio;
   final bool useFadeInAnimation;
+  final Widget? errorWidget;
 
   const ImageWidget(
     this.source, {
@@ -40,6 +41,7 @@ class ImageWidget extends StatefulWidget {
     this.cacheHeight,
     this.aspectRatio = 2.0,
     this.useFadeInAnimation = true,
+    this.errorWidget,
   }) : super(key: key);
 
   const ImageWidget.avatar(
@@ -56,6 +58,7 @@ class ImageWidget extends StatefulWidget {
     this.cacheHeight,
     this.aspectRatio = 2.0,
     this.useFadeInAnimation = true,
+    this.errorWidget,
   }) : super(key: key);
 
   Widget copyWith({Color? color, double? width, double? height}) {
@@ -205,11 +208,12 @@ class _ImageWidgetState extends State<ImageWidget>
       case LoadState.failed:
         _controller.reset();
 
-        image = Container(
-          width: widget.width,
-          height: widget.height,
-          color: Colors.grey,
-        );
+        image = widget.errorWidget ??
+            Container(
+              width: widget.width,
+              height: widget.height,
+              color: Colors.grey,
+            );
         break;
     }
     return image;
