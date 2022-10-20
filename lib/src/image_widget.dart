@@ -208,14 +208,24 @@ class _ImageWidgetState extends State<ImageWidget>
         break;
       case LoadState.failed:
         _controller.reset();
-
-        image = widget.errorWidget ??
-            ImageWidget.errorWidgetBuilder() ??
-            Container(
+        if (widget.errorWidget != null) {
+          image = widget.errorWidget!;
+        } else {
+          final errorWidget = ImageWidget.errorWidgetBuilder();
+          if (errorWidget != null) {
+            image = SizedBox(
+              width: widget.width,
+              height: widget.height,
+              child: errorWidget,
+            );
+          } else {
+            image = Container(
               width: widget.width,
               height: widget.height,
               color: Colors.grey,
             );
+          }
+        }
         break;
     }
     return image;

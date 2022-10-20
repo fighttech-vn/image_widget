@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:imagewidget/imagewidget.dart';
 
+const _imgTest =
+    'https://images.unsplash.com/photo-1661041524618-220a2a2b8b74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=986&q=81';
 void main() {
+  ImageWidget.errorWidgetBuilder = () => const ImageWidget(_imgTest);
+
   runApp(const MyApp());
 }
 
@@ -33,9 +37,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  final linkCtr = TextEditingController(
-      text:
-          'https://images.unsplash.com/photo-1661041524618-220a2a2b8b74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=986&q=81');
+  final linkCtr = TextEditingController(text: _imgTest);
 
   void _incrementCounter() {
     setState(() {
@@ -74,6 +76,11 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           const Text(
             'You have pushed the button this many times:',
+          ),
+          const ImageWidget(
+            'https://images.unsplash.com/photo-1661041524618-220a2a2b8b7.png',
+            width: 100,
+            height: 50,
           ),
           CupertinoTextField(
             clearButtonMode: OverlayVisibilityMode.editing,
