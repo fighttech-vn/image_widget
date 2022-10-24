@@ -127,6 +127,7 @@ class _ImageWidgetState extends State<ImageWidget>
         widget.source,
         cache: true,
         fit: widget.fit,
+        color: widget.color,
         loadStateChanged: loadStateChanged,
         cacheWidth: widget.cacheWidth,
         cacheHeight: widget.cacheHeight,
@@ -137,6 +138,7 @@ class _ImageWidgetState extends State<ImageWidget>
       body = ExtendedImage.file(
         getFile(widget.source),
         fit: widget.fit,
+        color: widget.color,
         loadStateChanged: loadStateChanged,
       );
     } else if (widget.source.contains('.json')) {
@@ -151,6 +153,7 @@ class _ImageWidgetState extends State<ImageWidget>
       body = Image.asset(
         widget.source,
         fit: widget.fit,
+        color: widget.color,
         width: widget.width,
         height: widget.height,
         package: widget.package ?? ImageWidget.packageDefault,

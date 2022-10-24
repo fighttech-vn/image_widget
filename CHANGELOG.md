@@ -1,3 +1,5 @@
+## 0.0.23
+feat(ImageWidget): Fix issue set color
 ## 0.0.16
 feat(ImageWidget): Support Animation FadeIn
 ## 0.0.7
