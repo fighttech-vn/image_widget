@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
@@ -23,17 +25,19 @@ class _ImageZoomState extends State<ImageZoom> with TickerProviderStateMixin {
     Animation? animation;
 
     Function() animationListener = () {};
-    // ignore: prefer_typing_uninitialized_variables
-    var widgetImage;
+    dynamic widgetImage;
+    dynamic img;
 
     if (widget.url.contains('http')) {
       widgetImage = ExtendedImage.network;
+      img = widget.url;
     } else {
-      widgetImage = ExtendedImage.asset;
+      widgetImage = ExtendedImage.file;
+      img = File(widget.url);
     }
 
     return widgetImage(
-      widget.url,
+      img,
       enableSlideOutPage: true,
       mode: ExtendedImageMode.gesture,
       extendedImageGestureKey: GlobalKey<ExtendedImageGestureState>(),

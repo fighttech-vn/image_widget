@@ -1,3 +1,5 @@
+## 0.0.25
+feat(ImageZoom): support image is file and remove support image asset 
 ## 0.0.24
 feat(ImageZoom): support image asset
 ## 0.0.23
