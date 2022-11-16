@@ -1,3 +1,5 @@
+## 0.0.24
+feat(ImageZoom): support image asset
 ## 0.0.23
 feat(ImageWidget): Fix issue set color
 ## 0.0.16

@@ -23,8 +23,16 @@ class _ImageZoomState extends State<ImageZoom> with TickerProviderStateMixin {
     Animation? animation;
 
     Function() animationListener = () {};
+    // ignore: prefer_typing_uninitialized_variables
+    var widgetImage;
 
-    return ExtendedImage.network(
+    if (widget.url.contains('http')) {
+      widgetImage = ExtendedImage.network;
+    } else {
+      widgetImage = ExtendedImage.asset;
+    }
+
+    return widgetImage(
       widget.url,
       enableSlideOutPage: true,
       mode: ExtendedImageMode.gesture,
