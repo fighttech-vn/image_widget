@@ -1,3 +1,6 @@
+## 1.0.0
+Support flutter 3.7
+
 ## 0.0.25
 feat(ImageZoom): support image is file and remove support image asset 
 ## 0.0.24

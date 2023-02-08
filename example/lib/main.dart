@@ -4,6 +4,7 @@ import 'package:imagewidget/imagewidget.dart';
 
 const _imgTest =
     'https://images.unsplash.com/photo-1661041524618-220a2a2b8b74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=986&q=81';
+
 void main() {
   ImageWidget.errorWidgetBuilder = () => const ImageWidget(_imgTest);
 
@@ -95,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Text(
             '$_counter',
-            style: Theme.of(context).textTheme.headline4,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           if (linkCtr.text.isNotEmpty)
             ImageWidget(
