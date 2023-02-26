@@ -37,13 +37,16 @@ class _ImageListsWidgetState extends State<ImageListsWidget> {
         opaque: false,
         barrierColor: Colors.transparent,
         barrierDismissible: true,
-        pageBuilder: (c, a1, a2) => SlidePage(
-          url: url,
-          images: widget.images,
-          header: widget.header,
-          index: index,
-          themeColor: widget.themeColor,
-          isShowTitle: widget.isShowTitle,
+        pageBuilder: (c, a1, a2) => Material(
+          color: Colors.transparent,
+          child: SlidePage(
+            url: url,
+            images: widget.images,
+            header: widget.header,
+            index: index,
+            themeColor: widget.themeColor,
+            isShowTitle: widget.isShowTitle,
+          ),
         ),
         transitionsBuilder: (c, anim, a2, child) =>
             FadeTransition(opacity: anim, child: child),
