@@ -4,8 +4,10 @@ Fighttech Flutter Image Widget
 - https://fighttech-vn.github.io/image-widget
 
 # setup
-Not use package `design_system`
-main.dart
+- Not use package `design_system`
+
+- Can define default pacakge name in file `main.dart`
+
 ```
   ImageWidget.packageDefault = null;
 ```
@@ -20,11 +22,32 @@ ImageWidget(
   ),
 ```
 
+## Support case link image error 404, 401
+
+```
+ImageWidget.errorWidgetBuilder = () => LayoutBuilder(
+          builder: (ctx, contrain) {
+            final width = contrain.maxWidth > 240.0 ? 240.0 : contrain.maxWidth;
+            return Container(
+              width: width,
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: width,
+                child: ImageWidget(
+                  ImageConstants.imgdefault,
+                ),
+              ),
+            );
+          },
+        );
+```
+
 ## Support image string 
 ```
 SvgImage('string')
 ```
 
+```
 
 import 'dart:async';
 
