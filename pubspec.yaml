@@ -1,7 +1,7 @@
 name: imagewidget
 description: Fighttech Flutter Image Widget
-version: 1.0.2
-homepage: https://tech.fighttech.vn
+version: 1.0.3
+homepage: https://github.com/fighttech-vn/image_widget
 
 environment:
   sdk: ">=2.17.1 <3.0.0"
