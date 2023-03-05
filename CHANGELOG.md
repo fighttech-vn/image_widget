@@ -1,3 +1,6 @@
+# 1.0.4
+Update package name to `image_widget`
+
 ## 1.0.0
 Support flutter 3.7
 
