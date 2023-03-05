@@ -1,7 +1,7 @@
 # imagewidget
 Fighttech Flutter Image Widget
 - https://pub.dev/packages/imagewidget
-- https://fighttech-vn.github.io/image-widget
+- https://github.com/fighttech-vn/image_widget
 
 # setup
 - Not use package `design_system`
