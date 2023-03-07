@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:imagewidget/image_widget.dart';
+import 'package:imagewidget/imagewidget.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
