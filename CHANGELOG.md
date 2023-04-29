@@ -1,3 +1,6 @@
+# 1.0.8
+Expose package `extended_image`
+
 # 1.0.4
 Update package name to `image_widget`
 
