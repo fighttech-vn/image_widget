@@ -139,6 +139,8 @@ class _ImageWidgetState extends State<ImageWidget>
         getFile(widget.source),
         fit: widget.fit,
         color: widget.color,
+        width: widget.width,
+        height: widget.height,
         loadStateChanged: loadStateChanged,
       );
     } else if (widget.source.contains('.json')) {
