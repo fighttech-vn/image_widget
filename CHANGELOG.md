@@ -1,3 +1,6 @@
+# 1.0.10
+Expose internal widgets
+
 # 1.0.8
 Expose package `extended_image`
 
