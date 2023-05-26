@@ -9,6 +9,7 @@ export 'package:lottie/lottie.dart';
 export 'src/entities/image_info.dart';
 export 'src/image_list_widget.dart';
 export 'src/image_widget.dart';
+export 'src/platforms/index.dart';
 export 'src/widgets/hero_widget.dart';
 export 'src/widgets/image_zoom.dart';
 export 'src/widgets/skeleton_widget.dart';

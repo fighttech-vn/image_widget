@@ -1,8 +1,8 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
-  strong-mode:
-    implicit-dynamic: true
+  language:
+    strict-raw-types: false
   errors:
     todo: ignore
   exclude:

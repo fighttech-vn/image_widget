@@ -1,6 +1,6 @@
 name: imagewidget
 description: Fighttech Flutter Image Widget
-version: 1.0.10
+version: 1.0.11
 homepage: https://github.com/fighttech-vn/image_widget
 
 environment:
@@ -10,9 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_svg: ^2.0.0+1
-  extended_image: ^7.0.1
-  lottie: ^2.2.0
+  flutter_svg: ^2.0.6
+  extended_image: ^8.0.1
+  lottie: ^2.3.2
 
 dev_dependencies:
   flutter_test:

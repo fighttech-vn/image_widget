@@ -1,3 +1,6 @@
+# 1.0.11
+Support flutter 3.10
+
 # 1.0.10
 Expose internal widgets
 

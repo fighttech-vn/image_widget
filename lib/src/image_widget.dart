@@ -110,14 +110,18 @@ class _ImageWidgetState extends State<ImageWidget>
           ? SvgPicture.network(
               widget.source,
               fit: widget.fit,
-              color: widget.color,
+              colorFilter: widget.color != null
+                  ? ColorFilter.mode(widget.color!, BlendMode.srcIn)
+                  : null,
               width: widget.width,
               height: widget.height,
             )
           : SvgPicture.asset(
               widget.source,
               fit: widget.fit,
-              color: widget.color,
+              colorFilter: widget.color != null
+                  ? ColorFilter.mode(widget.color!, BlendMode.srcIn)
+                  : null,
               width: widget.width,
               height: widget.height,
               package: widget.package ?? ImageWidget.packageDefault,
