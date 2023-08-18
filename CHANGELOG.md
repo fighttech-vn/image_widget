@@ -1,3 +1,6 @@
+# 1.0.12
+Support flutter 3.13
+
 # 1.0.11
 Support flutter 3.10
 
